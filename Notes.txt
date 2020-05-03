@@ -1,0 +1,4 @@
+Issues with Project:
+SQL "order" is a keyword, had to use "Orders"
+
+JAva will be the one intereacting with SQL, we're not inputting commands
