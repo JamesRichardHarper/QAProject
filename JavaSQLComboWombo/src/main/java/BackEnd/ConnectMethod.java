@@ -17,6 +17,16 @@ public class ConnectMethod {
         }
     }
 
+    public static PreparedStatement prepareStatement(String Query) {
+        PreparedStatement SQLPrepped = null;
+        try {
+            SQLPrepped = conn.prepareStatement(Query);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return SQLPrepped;
+    }
+
     public static void executeUpdate(String query) {
         try {
             state.executeUpdate(query);

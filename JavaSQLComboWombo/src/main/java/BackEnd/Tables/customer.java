@@ -1,6 +1,8 @@
 package BackEnd.Tables;
 
 import BackEnd.ConnectMethod;
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * Start: 12.05.2020
  */
 
-public class customer {
+public class customer implements CRUDMethod{
 
     String Query = null;
 
@@ -44,21 +46,38 @@ public class customer {
         this.city = city;
     }
 
-    public void createCustomer(String first_name,
-                          String last_name,
-                          String address,
-                          String email,
-                          String age,
-                          String post_code,
-                          String city){
+    public void createCustomer(int CID,
+                               String first_name,
+                               String last_name,
+                               String address,
+                               String email,
+                               int age,
+                               String post_code,
+                               String city){
 
-        Query = "INSERT INTO BackEnd.Tables.customer VALUES ( 0 , '" + first_name + "' , '" + last_name + "' , '" + address + "' , '" + email + "' , " + age + " , '" + post_code + "' , '" + city + "');";
-        ConnectMethod.executeUpdate(Query);
+        Query = "INSERT INTO customer (CID,first_name,last_name,address,email,age,post_code,city) VALUES ( ? , ? , ? , ? , ?, ? , ? , ? )";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+
+        try{
+            SQLState.setInt(1, CID);
+            SQLState.setString(2, first_name);
+            SQLState.setString(3, last_name);
+            SQLState.setString(4, address);
+            SQLState.setString(5, email);
+            SQLState.setInt(6, age);
+            SQLState.setString(7, post_code);
+            SQLState.setString(8, city);
+            SQLState.executeUpdate();
+        }
+        catch(SQLException exception){
+            exception.printStackTrace();
+        }
     }
 
-    public customer getSingle(int ID){
+    public customer getRecord(int ID){
+        Query = "SELECT * FROM customer WHERE CID =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
 
-        Query = "SELECT * FROM BackEnd.Tables.customer WHERE CID = " + ID + ";";
         String first_name = null;
         String last_name = null;
         String address = null;
@@ -67,7 +86,8 @@ public class customer {
         String post_code = null;
         String city = null;
         try{
-            ResultSet Results = ConnectMethod.executeQuery(Query);
+            SQLState.setInt(1, ID);
+            ResultSet Results = SQLState.executeQuery();
             while(Results.next()){
                 first_name = Results.getString("first_name");
                 last_name = Results.getString("last_name");
@@ -85,20 +105,9 @@ public class customer {
 
     }
 
-    public void editCustomer(int CID, String FieldToEdit, String FieldAlteration) {
-
-        Query = "UPDATE BackEnd.Tables.customer SET " + FieldToEdit + " = " + FieldAlteration + " WHERE CID =" + CID + " ;";
-        ConnectMethod.executeUpdate(Query);
-    }
-
-    public void editCustomer(int CID, String FieldToEdit, int FieldAlteration) {
-
-        Query = "UPDATE BackEnd.Tables.customer SET " + FieldToEdit + " = " + FieldAlteration + " WHERE CID =" + CID + " ;";
-        ConnectMethod.executeUpdate(Query);
-    }
-
+    @Override
     public ArrayList<String> getAll(){
-        ResultSet Results = ConnectMethod.executeQuery("SELECT * FROM BackEnd.Tables.customer;");
+        ResultSet Results = ConnectMethod.executeQuery("SELECT * FROM customer;");
         String Customer;
         ArrayList<String> CustomerList = new ArrayList<>();
         try{
@@ -119,6 +128,70 @@ public class customer {
             e.printStackTrace();
         }
         return CustomerList;
+    }
+
+    public void editTable(int ID, String FieldToEdit, String FieldAlteration) {
+        Query = "UPDATE customer SET " + FieldToEdit + " =? WHERE CID =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setString(1, FieldAlteration);
+            SQLState.setInt(2, ID);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    public void editTable(int ID, String FieldToEdit, int FieldAlteration) {
+        Query = "UPDATE customer SET " + FieldToEdit + " =? WHERE CID =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setInt(1, FieldAlteration);
+            SQLState.setInt(2, ID);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteRecord(int Identifier, String FieldToDelete) {
+        Query = "DELETE FROM customer WHERE " + FieldToDelete + " =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setInt(1, Identifier);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteRecord(String Identifier, String FieldToDelete) {
+        Query = "DELETE FROM customer WHERE " + FieldToDelete + " =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setString(1, Identifier);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        Query = "DELETE FROM customer";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
     }
 
 }
