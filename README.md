@@ -1,4 +1,4 @@
 # QAProject
-Project for QA Consulting 
+Project for Week 5 of working for QA Consulting 
 
-First push committed on the 30th of April. Getting to grips with github.
+Database with customer, game, order, locaion and order_game tables.
