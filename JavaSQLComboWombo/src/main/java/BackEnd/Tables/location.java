@@ -53,7 +53,7 @@ public class location implements CRUDMethod{
 
     public location getRecord(int ID){
 
-        Query = "SELECT * FROM location WHERE CID =?";
+        Query = "SELECT * FROM location WHERE LID =?";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
 
         int LID = 0;
@@ -64,8 +64,9 @@ public class location implements CRUDMethod{
         try{
             SQLState.setInt(1, ID);
             ResultSet Results = SQLState.executeQuery();
+            System.out.println(Results);
             while(Results.next()){
-                LID = Results.getInt(LID);
+                LID = Results.getInt("LID");
                 streetAddress = Results.getString("streetAddress");
                 postCode = Results.getString("postCode");
                 city = Results.getString("city");
@@ -76,6 +77,26 @@ public class location implements CRUDMethod{
             e.printStackTrace();
         }
         return new location(LID, streetAddress, postCode, city, email);
+    }
+
+    public int getLID() {
+        return LID;
+    }
+
+    public String getStreetAddress() {
+        return StreetAddress;
+    }
+
+    public String getPostCode() {
+        return PostCode;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public String getEmail() {
+        return Email;
     }
 
     @Override
@@ -98,27 +119,70 @@ public class location implements CRUDMethod{
         return LocationList;
     }
 
-    public void editLocation(int LID, String FieldToEdit, String FieldAlteration) {
-        Query = "UPDATE customer SET" + FieldToEdit +;
+    @Override
+    public void editTable(int ID, String FieldToEdit, String FieldAlteration) {
+        Query = "UPDATE location SET " + FieldToEdit + " =? WHERE LID =?";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
-
-        Query = "UPDATE BackEnd.Tables.customer SET " + FieldToEdit + " = " + FieldAlteration + " WHERE CID =" + CID + " ;";
-        ConnectMethod.executeUpdate(Query);
-    }
-
-    public void editLocation(int LID, String FieldToEdit, int FieldAlteration) {
-
-        Query = "UPDATE BackEnd.Tables.customer SET " + FieldToEdit + " = " + FieldAlteration + " WHERE CID =" + CID + " ;";
-        ConnectMethod.executeUpdate(Query);
+        try{
+            SQLState.setString(1, FieldAlteration);
+            SQLState.setInt(2, ID);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
     }
 
     @Override
-    public void deleteRecord(int ID) {
+    public void editTable(int ID, String FieldToEdit, int FieldAlteration) {
+        Query = "UPDATE location SET " + FieldToEdit + " =? WHERE LID =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setInt(1, FieldAlteration);
+            SQLState.setInt(2, ID);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
 
+    @Override
+    public void deleteRecord(String FieldToDeleteFrom, int Identifier) {
+        Query = "DELETE FROM location WHERE " + FieldToDeleteFrom + " =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setInt(1, Identifier);
+            System.out.println(SQLState);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteRecord(String FieldToDeleteFrom, String Identifier) {
+        Query = "DELETE FROM location WHERE " + FieldToDeleteFrom + " =?";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.setString(1, Identifier);
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
     }
 
     @Override
     public void deleteAll() {
-
+        Query = "DELETE FROM customer";
+        PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
+        try{
+            SQLState.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
     }
 }

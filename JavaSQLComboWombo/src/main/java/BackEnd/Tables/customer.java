@@ -17,56 +17,44 @@ public class customer implements CRUDMethod{
     String Query = null;
 
     int CID;
+    int fk_LID;
     String first_name;
     String last_name;
-    String address;
-    String email;
     int age;
-    String post_code;
-    String city;
+    int loyalty;
 
     public customer() {
     }
 
     public customer(int CID,
+                    int fk_LID,
                     String first_name,
                     String last_name,
-                    String address,
-                    String email,
                     int age,
-                    String post_code,
-                    String city) {
+                    int loyalty) {
         this.CID = CID;
+        this.fk_LID = fk_LID;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.address = address;
-        this.email = email;
         this.age = age;
-        this.post_code = post_code;
-        this.city = city;
+        this.loyalty = loyalty;
     }
 
-    public void createCustomer(int CID,
+    public void createCustomer(int fk_LID,
                                String first_name,
                                String last_name,
-                               String address,
-                               String email,
                                int age,
-                               String post_code,
-                               String city){
+                               int loyalty){
 
-        Query = "INSERT INTO customer (CID,first_name,last_name,address,email,age,post_code,city) VALUES ( ? , ? , ? , ? , ?, ? , ? , ? )";
+        Query = "INSERT INTO customer (fk_LID, first_name, last_name, age, loyalty) VALUES ( ? , ? , ? , ? , ?)";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
 
         try{
-            SQLState.setInt(1, CID);
+            SQLState.setInt(1, fk_LID);
             SQLState.setString(2, first_name);
             SQLState.setString(3, last_name);
-            SQLState.setString(4, address);
-            SQLState.setString(5, email);
-            SQLState.setInt(6, age);
-            SQLState.setString(7, post_code);
-            SQLState.setString(8, city);
+            SQLState.setInt(4, age);
+            SQLState.setInt(5, loyalty);
             SQLState.executeUpdate();
         }
         catch(SQLException exception){
@@ -78,30 +66,26 @@ public class customer implements CRUDMethod{
         Query = "SELECT * FROM customer WHERE CID =?";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
 
+        int fk_LID = 0;
         String first_name = null;
         String last_name = null;
-        String address = null;
-        String email = null;
         int age = 0;
-        String post_code = null;
-        String city = null;
+        int loyalty = 0;
         try{
             SQLState.setInt(1, ID);
             ResultSet Results = SQLState.executeQuery();
-            while(Results.next()){
+            while(Results.next()) {
+                fk_LID = Results.getInt("fk_LID");
                 first_name = Results.getString("first_name");
                 last_name = Results.getString("last_name");
-                address = Results.getString("address");
-                email = Results.getString("email");
                 age = Results.getInt("age");
-                post_code = Results.getString("post_code");
-                city = Results.getString("city");
+                loyalty = Results.getInt("loyalty");
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return new customer(ID, first_name, last_name, address, email, age, post_code, city);
+        return new customer(ID, fk_LID, first_name, last_name, age, loyalty);
 
     }
 
@@ -112,15 +96,13 @@ public class customer implements CRUDMethod{
         ArrayList<String> CustomerList = new ArrayList<>();
         try{
             while (Results.next()) {
-                Customer = Results.getString("CID") + " - " +
-                        Results.getString("first_name") + " " +
+                Customer =
+                        Results.getInt("CID") + " - " +
+                        Results.getInt("fk_LID") + " - " +
+                        Results.getString("first_name") + " - " +
                         Results.getString("last_name") + " - " +
-                        Results.getString("address") + " - " +
-                        Results.getString("email") + " - " +
-                        Results.getString("age") + " - " +
-                        Results.getString("post_code") + " - " +
-                        Results.getString("city")
-                ;
+                        Results.getInt("age") + " - " +
+                        Results.getInt("loyalty");
                 CustomerList.add(Customer);
             }
         }
@@ -143,6 +125,7 @@ public class customer implements CRUDMethod{
         }
     }
 
+    @Override
     public void editTable(int ID, String FieldToEdit, int FieldAlteration) {
         Query = "UPDATE customer SET " + FieldToEdit + " =? WHERE CID =?";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
@@ -157,11 +140,12 @@ public class customer implements CRUDMethod{
     }
 
     @Override
-    public void deleteRecord(int Identifier, String FieldToDelete) {
-        Query = "DELETE FROM customer WHERE " + FieldToDelete + " =?";
+    public void deleteRecord(String FieldToDeleteFrom, int Identifier) {
+        Query = "DELETE FROM customer WHERE " + FieldToDeleteFrom + " =?";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
         try{
             SQLState.setInt(1, Identifier);
+            System.out.println(SQLState);
             SQLState.executeUpdate();
         }
         catch (SQLException exception){

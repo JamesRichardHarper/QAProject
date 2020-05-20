@@ -1,22 +1,57 @@
 import BackEnd.ConnectMethod;
-import BackEnd.Tables.customer;
+import BackEnd.Tables.location;
+import UI.InteractMethod;
+import UI.InteractText;
+import UI.ScannerMethod;
 
 import java.sql.SQLException;
 
 public class Header {
+    static boolean On = true;
     public static void main(String[] args) throws SQLException {
 
-        customer Customer = new customer();
-
         ConnectMethod.getConnection();
-        //BackEnd.ConnectMethod.executeQuery("SELECT * FROM BackEnd.Tables.customer;");
-        //System.out.println(catchAllMethods.getAll("customer"));
-        //System.out.println(Customer.getSingle(1));
-        //Customer.createCustomer(5,"Rick", "Astley", "Downtown", "NeverGunn@give.com", 54, "LE5 2PE", "New York");
-        Customer.editTable(2, "city", "London");
+        while(On){
+            int Option = 0;
+            InteractText.listDatabaseInteract();
 
+            Option = ScannerMethod.inputNum();
+
+            switch (Option){
+                case(1): //Location
+                    InteractMethod.locationMethod(); //TODO
+
+                    break;
+                case(2): //Customer
+                    InteractText.listInteract(); //TODO
+                    break;
+                case(3): //Order
+                    InteractText.listInteract(); // TODO
+                    break;
+                case(4): //Game
+                    InteractText.listInteract(); //TODO
+                    break;
+                case(5): //Order_Game
+                    InteractText.listInteract(); //TODO
+                    break;
+                case(6): //Options
+                    InteractMethod.options();
+                    break;
+                case(9): //Exit
+                    On = false;
+                    break;
+                default:
+
+            }
+
+        }
 
         ConnectMethod.close();
 
     }
 }
+
+//Location.createRecord("12 Blackfield", "PR24GT", "Newcastle", "aabc@BT.com");
+//System.out.println(Location.getAll());
+//Location.createRecord("12 Fruittree", "NE83RT", "Preston", "Okay@Cokay.com");
+//Location.deleteRecord("city", "Newcastle");
