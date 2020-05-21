@@ -19,17 +19,16 @@ public class Header {
 
             switch (Option){
                 case(1): //Location
-                    InteractMethod.locationMethod(); //TODO
-
+                    InteractMethod.locationMethod();
                     break;
                 case(2): //Customer
-                    InteractText.listInteract(); //TODO
+                    InteractMethod.customerMethod();
                     break;
                 case(3): //Order
-                    InteractText.listInteract(); // TODO
+                    InteractMethod.orderMethod();
                     break;
                 case(4): //Game
-                    InteractText.listInteract(); //TODO
+                    InteractMethod.gamesMethod();
                     break;
                 case(5): //Order_Game
                     InteractText.listInteract(); //TODO

@@ -106,11 +106,11 @@ public class location implements CRUDMethod{
         ArrayList<String> LocationList = new ArrayList<>();
         try {
             while (Results.next()) {
-                location = Results.getString("LID") + " - " +
-                        Results.getString("streetAddress") + " " +
-                        Results.getString("postCode") + " - " +
-                        Results.getString("city") + " - " +
-                        Results.getString("email");
+                location = "LID: " + Results.getString("LID") + " - " +
+                        "Address: " + Results.getString("streetAddress") + " " +
+                        "Postcode: " + Results.getString("postCode") + " - " +
+                        "City: " + Results.getString("city") + " - " +
+                        "Email: " +Results.getString("email");
                 LocationList.add(location);
             }
         } catch (SQLException e) {
@@ -153,7 +153,6 @@ public class location implements CRUDMethod{
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
         try{
             SQLState.setInt(1, Identifier);
-            System.out.println(SQLState);
             SQLState.executeUpdate();
         }
         catch (SQLException exception){

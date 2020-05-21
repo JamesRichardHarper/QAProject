@@ -46,7 +46,7 @@ public class customer implements CRUDMethod{
                                int age,
                                int loyalty){
 
-        Query = "INSERT INTO customer (fk_LID, first_name, last_name, age, loyalty) VALUES ( ? , ? , ? , ? , ?)";
+        Query = "INSERT INTO customer (fk_LID, firstName, lastName, age, loyalty) VALUES ( ? , ? , ? , ? , ?)";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
 
         try{
@@ -76,8 +76,8 @@ public class customer implements CRUDMethod{
             ResultSet Results = SQLState.executeQuery();
             while(Results.next()) {
                 fk_LID = Results.getInt("fk_LID");
-                first_name = Results.getString("first_name");
-                last_name = Results.getString("last_name");
+                first_name = Results.getString("firstName");
+                last_name = Results.getString("lastName");
                 age = Results.getInt("age");
                 loyalty = Results.getInt("loyalty");
             }
@@ -89,6 +89,30 @@ public class customer implements CRUDMethod{
 
     }
 
+    public int getCID() {
+        return CID;
+    }
+
+    public int getFk_LID() {
+        return fk_LID;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getLoyalty() {
+        return loyalty;
+    }
+
     @Override
     public ArrayList<String> getAll(){
         ResultSet Results = ConnectMethod.executeQuery("SELECT * FROM customer;");
@@ -96,13 +120,11 @@ public class customer implements CRUDMethod{
         ArrayList<String> CustomerList = new ArrayList<>();
         try{
             while (Results.next()) {
-                Customer =
-                        Results.getInt("CID") + " - " +
-                        Results.getInt("fk_LID") + " - " +
-                        Results.getString("first_name") + " - " +
-                        Results.getString("last_name") + " - " +
-                        Results.getInt("age") + " - " +
-                        Results.getInt("loyalty");
+                Customer = "CID : " + Results.getString("CID") + " - " +
+                        "fk_LID: " + Results.getString("fk_LID") + " - " +
+                        "Name: " + Results.getString("firstName") + " " + Results.getString("lastName") + " - " +
+                        "Age: " + Results.getString("age") + " - " +
+                        "Loyalty Bonus: " + Results.getString("loyalty");
                 CustomerList.add(Customer);
             }
         }
@@ -154,8 +176,8 @@ public class customer implements CRUDMethod{
     }
 
     @Override
-    public void deleteRecord(String Identifier, String FieldToDelete) {
-        Query = "DELETE FROM customer WHERE " + FieldToDelete + " =?";
+    public void deleteRecord(String Identifier, String FieldToDeleteFrom) {
+        Query = "DELETE FROM customer WHERE " + FieldToDeleteFrom + " =?";
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
         try{
             SQLState.setString(1, Identifier);

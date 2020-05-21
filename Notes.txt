@@ -1,4 +1,6 @@
 Issues with Project:
 SQL "order" is a keyword, had to use "Orders"
+In Order_product table had to remove the amount key
+Had to re-use git hub due to amount of fuck ups
 
 JAva will be the one intereacting with SQL, we're not inputting commands

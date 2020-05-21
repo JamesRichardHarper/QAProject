@@ -37,7 +37,7 @@ public class games implements CRUDMethod{
 
     public void createRecord(String gameName,
                              int ageRating,
-                             Date dateReleased,
+                             String dateReleased,
                              String genre,
                              double gamePrice){
 
@@ -47,7 +47,7 @@ public class games implements CRUDMethod{
         try{
             SQLState.setString(1, gameName);
             SQLState.setInt(2, ageRating);
-            SQLState.setDate(3, dateReleased);
+            SQLState.setString(3, dateReleased);
             SQLState.setString(4, genre);
             SQLState.setDouble(5, gamePrice);
             SQLState.executeUpdate();
@@ -72,7 +72,7 @@ public class games implements CRUDMethod{
             SQLState.setInt(1, ID);
             ResultSet Results = SQLState.executeQuery();
             while(Results.next()){
-                PID = Results.getInt(PID);
+                PID = Results.getInt("PID");
                 gameName = Results.getString("gameName");
                 ageRating = Results.getInt("ageRating");
                 dateReleased = Results.getDate("dateReleased");
@@ -86,24 +86,49 @@ public class games implements CRUDMethod{
         return new games(PID, gameName, ageRating, dateReleased, genre, gamePrice);
     }
 
+    public int getPID() {
+        return PID;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public int getAgeRating() {
+        return ageRating;
+    }
+
+    public Date getDateReleased() {
+        return dateReleased;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public double getGamePrice() {
+        return gamePrice;
+    }
+
     @Override
     public ArrayList<String> getAll() {
         ResultSet Results = ConnectMethod.executeQuery("SELECT * FROM games;");
-        String location;
-        ArrayList<String> LocationList = new ArrayList<>();
+        String game;
+        ArrayList<String> GamesList = new ArrayList<>();
         try {
             while (Results.next()) {
-                location = Results.getString("PID") + " - " +
-                        Results.getString("streetAddress") + " " +
-                        Results.getString("postCode") + " - " +
-                        Results.getString("city") + " - " +
-                        Results.getString("email");
-                LocationList.add(location);
+                game = "PID: " + Results.getString("PID") + " - " +
+                        "Title: " + Results.getString("gameName") + " " +
+                        "Age Rating: " + Results.getString("ageRating") + " - " +
+                        "Release Date: " + Results.getString("dateReleased") + " - " +
+                        "Genre: " + Results.getString("genre") + " - " +
+                        "Price: " + Results.getString("gamePrice");
+                GamesList.add(game);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return LocationList;
+        return GamesList;
     }
 
     @Override

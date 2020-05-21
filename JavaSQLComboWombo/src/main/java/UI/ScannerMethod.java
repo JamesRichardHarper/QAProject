@@ -20,13 +20,26 @@ public class ScannerMethod {
 
         if(Scan.hasNextInt()){
             input = Scan.nextInt();
-            Scan.nextLine();
         }
         else{
             System.out.println("Sorry! It appears you have entered an incorrect variable. Returning to previous menu.");
-            Scan.nextLine();
         }
-        
+        Scan.nextLine();
+
+        return input;
+    }
+
+    public static double inputDubz(){
+        double input = 0;
+
+        if(Scan.hasNextDouble()){
+            input = Scan.nextDouble();
+        }
+        else{
+            System.out.println("Sorry! It appears you have entered an incorrect variable. Returning to previous menu.");
+        }
+        Scan.nextLine();
+
         return input;
     }
 
