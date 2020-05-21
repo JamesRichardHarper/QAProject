@@ -80,9 +80,9 @@ public class orders implements CRUDMethod{
         ArrayList<String> CustomerList = new ArrayList<>();
         try{
             while (Results.next()) {
-                Order = "OID : " + Results.getString("OID") + " - " +
+                Order = "OID: " + Results.getString("OID") + " - " +
                         "fk_CID: " + Results.getString("fk_CID") + " - " +
-                        "Date of Order" + Results.getString("orderDate");
+                        "Date of Order " + Results.getString("orderDate");
                 CustomerList.add(Order);
             }
         }

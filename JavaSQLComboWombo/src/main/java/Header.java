@@ -31,7 +31,7 @@ public class Header {
                     InteractMethod.gamesMethod();
                     break;
                 case(5): //Order_Game
-                    InteractText.listInteract(); //TODO
+                    InteractMethod.orders_gamesMethod();
                     break;
                 case(6): //Options
                     InteractMethod.options();
@@ -40,13 +40,9 @@ public class Header {
                     On = false;
                     break;
                 default:
-
             }
-
         }
-
         ConnectMethod.close();
-
     }
 }
 

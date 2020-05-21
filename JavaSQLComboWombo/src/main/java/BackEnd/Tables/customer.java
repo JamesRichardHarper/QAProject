@@ -120,7 +120,7 @@ public class customer implements CRUDMethod{
         ArrayList<String> CustomerList = new ArrayList<>();
         try{
             while (Results.next()) {
-                Customer = "CID : " + Results.getString("CID") + " - " +
+                Customer = "CID: " + Results.getString("CID") + " - " +
                         "fk_LID: " + Results.getString("fk_LID") + " - " +
                         "Name: " + Results.getString("firstName") + " " + Results.getString("lastName") + " - " +
                         "Age: " + Results.getString("age") + " - " +
@@ -167,7 +167,6 @@ public class customer implements CRUDMethod{
         PreparedStatement SQLState = ConnectMethod.prepareStatement(Query);
         try{
             SQLState.setInt(1, Identifier);
-            System.out.println(SQLState);
             SQLState.executeUpdate();
         }
         catch (SQLException exception){

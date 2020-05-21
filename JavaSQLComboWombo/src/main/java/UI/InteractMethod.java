@@ -177,7 +177,7 @@ public class InteractMethod {
                     String last_name = ScannerMethod.inputString();
                     System.out.println("Please insert a age.");
                     int age = ScannerMethod.inputNum();
-                    System.out.println("Please enter a 0 for no loyalty, a 1 to indicate a loyalty bonus");
+                    System.out.println("Please enter a 1 for no loyalty, a 2 to indicate a loyalty bonus");
                     int loyalty = ScannerMethod.inputNum();
                     if (loyalty < 3 && loyalty > 0){
                         customer.createCustomer(fk_LID, first_name, last_name, age, loyalty);
@@ -432,7 +432,7 @@ public class InteractMethod {
                         System.out.println("Genre: " + MyRecord.getGenre());
                         System.out.println("Price: " + MyRecord.getGamePrice());
                     } else if (Operate == 2) {
-                        System.out.println("Enter the location ID");
+                        System.out.println("Enter the product ID");
                         int IDOne = ScannerMethod.inputNum();
                         System.out.println("Enter the field you want to enter");
                         String FieldOne = ScannerMethod.inputString();
@@ -496,9 +496,17 @@ public class InteractMethod {
                 case (1) -> {
                     System.out.println("Please insert a customer ID.");
                     int fk_CID = ScannerMethod.inputNum();
-                    System.out.println("Please insert an order date.");
-                    String OrderDate = ScannerMethod.inputString();
-                    order.createRecord(fk_CID, OrderDate);
+
+                    System.out.println("Please insert the following values as integers.");
+                    System.out.println("Please insert a purchase day.");
+                    String day = ScannerMethod.inputString();
+                    System.out.println("Please insert a purchase month.");
+                    String month = ScannerMethod.inputString();
+                    System.out.println("Please insert a purchase year.");
+                    String year = ScannerMethod.inputString();
+                    String date = year + "-" + month + "-" + day;
+
+                    order.createRecord(fk_CID, date);
                 }
                 case (2) -> {
                     boolean Selecting = true;
@@ -515,7 +523,7 @@ public class InteractMethod {
                                 orders MyRecord = order.getRecord(ID);
                                 System.out.println("OID: " + MyRecord.getOID());
                                 System.out.println("fk_CID: " + MyRecord.getFk_CID());
-                                System.out.println("Order Date: " + MyRecord.getOrderDate());
+                                System.out.println("Order Date: " + MyRecord.getOrderDate().toString());
                             }
                             case (2) -> {
                                 System.out.println("Please give the start Orders ID");
@@ -527,14 +535,14 @@ public class InteractMethod {
                                         orders MyRecordOne = order.getRecord(Pos);
                                         System.out.println("OID: " + MyRecordOne.getOID());
                                         System.out.println("fk_CID: " + MyRecordOne.getFk_CID());
-                                        System.out.println("Order Date: " + MyRecordOne.getOrderDate());
+                                        System.out.println("Order Date: " + MyRecordOne.getOrderDate().toString());
                                     }
                                 } else {
                                     for (int Pos = start; Pos <= finish; Pos++) {
                                         orders MyRecordTwo = order.getRecord(Pos);
                                         System.out.println("OID: " + MyRecordTwo.getOID());
                                         System.out.println("fk_CID: " + MyRecordTwo.getFk_CID());
-                                        System.out.println("Order Date: " + MyRecordTwo.getOrderDate());
+                                        System.out.println("Order Date: " + MyRecordTwo.getOrderDate().toString());
                                     }
                                 }
                             }
@@ -621,7 +629,12 @@ public class InteractMethod {
         int OrdGame;
 
         while (OrdGameMenu){
-            InteractText.listInteract();
+            System.out.println("How would you like to interact with the table?"); //Need to change so edit is gone
+            System.out.println("[1] Create");
+            System.out.println("[2] Read");
+            System.out.println("[3] Delete");
+            System.out.println("[4] Total cost for an order");
+            System.out.println("[5] Return");
 
             OrdGame = ScannerMethod.inputNum();
 
@@ -637,117 +650,49 @@ public class InteractMethod {
                     boolean Selecting = true;
                     int select;
                     while (Selecting) {
-                        InteractText.selectStatement();
+                        System.out.println("How would you like to select");
+                        System.out.println("[1] Specifying ID Type");
+                        System.out.println("[2] All Records");
+                        System.out.println("[3] Return");
 
                         select = ScannerMethod.inputNum();
 
                         switch (select) {
                             case (1) -> {
-                                System.out.println("Please give the OrdGame ID");
+                                System.out.println("Please give the Field you're searching by");
+                                String Field = ScannerMethod.inputString();
+                                System.out.println("Please give the ID");
                                 int ID = ScannerMethod.inputNum();
-                                location MyRecord = location.getRecord(ID);
-                                System.out.println("LID: " + MyRecord.getLID());
-                                System.out.println("Address: " + MyRecord.getStreetAddress());
-                                System.out.println("Postcode: " + MyRecord.getPostCode());
-                                System.out.println("City: " + MyRecord.getCity());
-                                System.out.println("Email: " + MyRecord.getEmail());
-                            }
-                            case (2) -> {
-                                System.out.println("Please give the start OrdGame ID");
-                                int start = ScannerMethod.inputNum();
-                                System.out.println("Please give the finish OrdGame ID");
-                                int finish = ScannerMethod.inputNum();
-                                if (finish < start) {
-                                    for (int Pos = finish; Pos <= start; Pos++) {
-                                        location MyRecordOne = location.getRecord(Pos);
-                                        System.out.println("LID: " + MyRecordOne.getLID());
-                                        System.out.println("Address: " + MyRecordOne.getStreetAddress());
-                                        System.out.println("Postcode: " + MyRecordOne.getPostCode());
-                                        System.out.println("City: " + MyRecordOne.getCity());
-                                        System.out.println("Email: " + MyRecordOne.getEmail());
-                                    }
-                                } else {
-                                    for (int Pos = start; Pos <= finish; Pos++) {
-                                        location MyRecordTwo = location.getRecord(Pos);
-                                        System.out.println("LID: " + MyRecordTwo.getLID());
-                                        System.out.println("Address: " + MyRecordTwo.getStreetAddress());
-                                        System.out.println("Postcode: " + MyRecordTwo.getPostCode());
-                                        System.out.println("City: " + MyRecordTwo.getCity());
-                                        System.out.println("Email: " + MyRecordTwo.getEmail());
-                                    }
+                                ArrayList<orders_games> Selected = OrderGame.getRecords(Field, ID);
+                                for (orders_games Record: Selected) {
+                                    System.out.println("fk_OID: " + Record.getFk_OID() + " - " + "fk_PID: " + Record.getFk_PID());
                                 }
                             }
-                            case (3) -> {
-                                ArrayList<String> All = location.getAll();
+                            case (2) -> {
+                                ArrayList<String> All = OrderGame.getAll();
                                 for (String Record : All) {
                                     System.out.println(Record);
                                 }
                             }
-                            case (4) -> Selecting = false;
+                            case (3) -> Selecting = false;
                         }
                     }
                 }
                 case (3) -> {
-                    System.out.println("Is the value you're changing an Int or a String?");
-                    System.out.println("[1] Int");
-                    System.out.println("[2] String");
-                    int Operate = ScannerMethod.inputNum();
-                    if (Operate == 1) {
-                        System.out.println("Enter the location ID");
-                        int IDOne = ScannerMethod.inputNum();
-                        System.out.println("Enter the field you want to enter");
-                        String FieldOne = ScannerMethod.inputString();
-                        System.out.println("Enter the replacement value");
-                        int intChange = ScannerMethod.inputNum();
-                        location.editTable(IDOne, FieldOne, intChange);
 
-                        location MyRecord = location.getRecord(IDOne);
-                        System.out.println("Updated Record");
-                        System.out.println("LID: " + MyRecord.getLID());
-                        System.out.println("Address: " + MyRecord.getStreetAddress());
-                        System.out.println("Postcode: " + MyRecord.getPostCode());
-                        System.out.println("City: " + MyRecord.getCity());
-                        System.out.println("Email: " + MyRecord.getEmail());
-                    } else if (Operate == 2) {
-                        System.out.println("Enter the location ID");
-                        int IDOne = ScannerMethod.inputNum();
-                        System.out.println("Enter the field you want to enter");
-                        String FieldOne = ScannerMethod.inputString();
-                        System.out.println("Enter the replacement value");
-                        String StringChange = ScannerMethod.inputString();
-                        location.editTable(IDOne, FieldOne, StringChange);
+                    System.out.println("Enter the field name.");
+                    String StringRecord = ScannerMethod.inputString();
+                    System.out.println("Enter the record's field value.");
+                    System.out.println("Be warned, this will delete all records with the value selected.");
+                    System.out.println("E.g if you select 'fk_PID' and to delete ID 2, it will delete all records with a value of 2");
+                    int IntIdentifier = ScannerMethod.inputNum();
+                    OrderGame.deleteRecord(StringRecord, IntIdentifier);
 
-                        location MyRecord = location.getRecord(IDOne);
-                        System.out.println("Updated Record");
-                        System.out.println("LID: " + MyRecord.getLID());
-                        System.out.println("Address: " + MyRecord.getStreetAddress());
-                        System.out.println("Postcode: " + MyRecord.getPostCode());
-                        System.out.println("City: " + MyRecord.getCity());
-                        System.out.println("Email: " + MyRecord.getEmail());
-                    } else {
-                        System.out.println("Incorrect value entered. Returning to previous menu.");
-                    }
                 }
                 case (4) -> {
-                    System.out.println("Are you identifying a record by an integer value, or a string value.");
-                    System.out.println("[1] Int");
-                    System.out.println("[2] String");
-                    int OperateDelete = ScannerMethod.inputNum();
-                    if (OperateDelete == 1) {
-                        System.out.println("Enter the field name.");
-                        String StringRecord = ScannerMethod.inputString();
-                        System.out.println("Enter the record's field value.");
-                        int IntIdentifier = ScannerMethod.inputNum();
-                        location.deleteRecord(StringRecord, IntIdentifier);
-                    } else if (OperateDelete == 2) {
-                        System.out.println("Enter the field name.");
-                        String StringRecord = ScannerMethod.inputString();
-                        System.out.println("Enter the record's field value.");
-                        String StringIdentifier = ScannerMethod.inputString();
-                        location.deleteRecord(StringRecord, StringIdentifier);
-                    } else {
-                        System.out.println("Incorrect value entered. Returning to previous menu.");
-                    }
+                    System.out.println("Enter the OID you want tallied.");
+                    int OID = ScannerMethod.inputNum();
+                    System.out.println("£" + OrderGame.tallyCost(OID));
                 }
                 case (5) -> OrdGameMenu = false;
             }
